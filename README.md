@@ -16,7 +16,7 @@
 
 ## 一起做
 
-[待辦與里程碑](BACKLOG.md) · [認領與討論](https://github.com/FreeTWAI-AI/freedom-skill-human-design/issues) · [目前 PR](https://github.com/FreeTWAI-AI/freedom-skill-human-design/pulls) · [Fork](https://github.com/FreeTWAI-AI/freedom-skill-human-design/fork)
+[待辦與里程碑](BACKLOG.md) · [認領與討論](https://github.com/FreeTWAI/freedom-skill-human-design/issues) · [目前 PR](https://github.com/FreeTWAI/freedom-skill-human-design/pulls) · [Fork](https://github.com/FreeTWAI/freedom-skill-human-design/fork)
 
 Agent 先讀 [AGENTS.md](AGENTS.md)、[SKILL.md](SKILL.md) 與 [CONTRIBUTING.md](CONTRIBUTING.md)。待辦是可以提出認領的規劃；尚未分派，不代表已獲准或已完成。Issue 最新討論與 PR 是認領／審查紀錄。
 
@@ -29,7 +29,7 @@ python3 -m unittest discover -s tests -v
 
 ## 平台邊界
 
-本倉維護原創手冊、模板與合成案例。會員、公會、權限與技能書綁定由 [freedom-platform](https://github.com/FreeTWAI-AI/freedom-platform) 的 API／PostgreSQL 管理；本倉不能直接改中央資料庫。跨 repo 變更先連結相依 PR，不自行增加平台權限。公會會長未在此指定。
+本倉維護原創手冊、模板與合成案例。會員、公會、權限與技能書綁定由 [freedom-platform](https://github.com/FreeTWAI/freedom-platform) 的 API／PostgreSQL 管理；本倉不能直接改中央資料庫。跨 repo 變更先連結相依 PR，不自行增加平台權限。公會會長未在此指定。
 
 ## 授權與來源
 

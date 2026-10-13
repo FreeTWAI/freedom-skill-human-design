@@ -1,6 +1,6 @@
 # 共創待辦與里程碑
 
-以下是原創起始規劃，**全部待認領／未開始**。沒有指定負責人、完成百分比或承諾日期。開始前查 [Issues](https://github.com/FreeTWAI-AI/freedom-skill-human-design/issues)／[PR](https://github.com/FreeTWAI-AI/freedom-skill-human-design/pulls)；把認領範圍與相依工作連回來，最新討論优先。
+以下是原創起始規劃，**全部待認領／未開始**。沒有指定負責人、完成百分比或承諾日期。開始前查 [Issues](https://github.com/FreeTWAI/freedom-skill-human-design/issues)／[PR](https://github.com/FreeTWAI/freedom-skill-human-design/pulls)；把認領範圍與相依工作連回來，最新討論优先。
 
 ## M1：可複用的入門流程（planned）
 

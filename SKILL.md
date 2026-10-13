@@ -36,9 +36,9 @@ python3 -m unittest discover -s tests -v
 
 ## 協作交接
 
-1. 查 [BACKLOG.md](BACKLOG.md)、[Issues](https://github.com/FreeTWAI-AI/freedom-skill-human-design/issues) 與 [PR](https://github.com/FreeTWAI-AI/freedom-skill-human-design/pulls) 的最新狀態，避免重複工作。
+1. 查 [BACKLOG.md](BACKLOG.md)、[Issues](https://github.com/FreeTWAI/freedom-skill-human-design/issues) 與 [PR](https://github.com/FreeTWAI/freedom-skill-human-design/pulls) 的最新狀態，避免重複工作。
 2. 在已授權範圍內選一個待辦，用自己的 Fork／分支製作最小可審查變更。尚未派工時先在 Issue 協調；當前使用者已明確派工則直接沿用。
-3. PR 目標 `https://github.com/FreeTWAI-AI/freedom-skill-human-design:main`。列 task id、變更用途、實跑命令、結果、未驗證項目及相依 PR。
+3. PR 目標 `https://github.com/FreeTWAI/freedom-skill-human-design:main`。列 task id、變更用途、實跑命令、結果、未驗證項目及相依 PR。
 4. 保留作者、來源與審查結果。Agent 可讀此技能，不因此取得帳號、發送訊息、付款、現場設備或平台資料的操作權。
 
 ## 邊界
