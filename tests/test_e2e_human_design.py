@@ -57,5 +57,46 @@ class E2EHumanDesignCalculationConsistencyTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("PASS", result.stdout)
 
+    def test_bodygraph_transit_calculation(self):
+        data = self.base_data.copy()
+        data["transit_activations"] = {"Moon": {"gate": 20, "line": 1}}
+        result = self.run_validate(data)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("PASS", result.stdout)
+
+    def test_reflection_prompt_generation(self):
+        data = self.base_data.copy()
+        data["notes"].append({
+            "source_id": "s1",
+            "claim_type": "open_question",
+            "summary": "Generated reflection prompt",
+            "question": "How does this transit affect your defined centers?",
+            "limitations": "Contextual only"
+        })
+        result = self.run_validate(data)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("PASS", result.stdout)
+
+    def test_reading_note_structuring(self):
+        data = self.base_data.copy()
+        data["notes"].append({
+            "source_id": "s1",
+            "claim_type": "interpretation",
+            "summary": "Structured note summary",
+            "question": "Structured note question?",
+            "limitations": "Subjective interpretation"
+        })
+        result = self.run_validate(data)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("PASS", result.stdout)
+
+    def test_gate_channel_lookup_consistency(self):
+        data = self.base_data.copy()
+        data["gate_activations"] = [20, 34]
+        data["channel_resolution"] = ["20-34"]
+        result = self.run_validate(data)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("PASS", result.stdout)
+
 if __name__ == '__main__':
     unittest.main()
