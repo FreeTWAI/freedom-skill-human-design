@@ -105,3 +105,39 @@ class PlanValidation(unittest.TestCase):
         del bad['notes'][0]['question']
         errors = module.validate(bad)
         self.assertIn("note requires question", errors)
+
+    def test_number_validation(self):
+        self.assertTrue(module.number(1))
+        self.assertTrue(module.number(1.5))
+        self.assertFalse(module.number(True))
+        self.assertFalse(module.number("1"))
+
+    def test_records_validation(self):
+        errors = []
+        self.assertEqual(module.records({"key": []}, "key", errors), [])
+        self.assertIn("key must contain at least one object", errors)
+
+        errors = []
+        self.assertEqual(module.records({"key": ["not_dict"]}, "key", errors), [])
+        self.assertIn("key must contain at least one object", errors)
+
+        errors = []
+        self.assertEqual(module.records({"key": [{"a": 1}]}, "key", errors), [{"a": 1}])
+        self.assertEqual(errors, [])
+
+    def test_unique_ids_validation(self):
+        errors = []
+        self.assertEqual(module.unique_ids([{"id": ""}], "item", errors), set())
+        self.assertIn("item ids must be nonempty strings", errors)
+
+        errors = []
+        self.assertEqual(module.unique_ids([{"id": 1}], "item", errors), set())
+        self.assertIn("item ids must be nonempty strings", errors)
+
+        errors = []
+        self.assertEqual(module.unique_ids([{"id": "a"}, {"id": "a"}], "item", errors), {"a"})
+        self.assertIn("item ids must be unique", errors)
+
+        errors = []
+        self.assertEqual(module.unique_ids([{"id": "a"}, {"id": "b"}], "item", errors), {"a", "b"})
+        self.assertEqual(errors, [])
