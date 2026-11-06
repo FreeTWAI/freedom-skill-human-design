@@ -25,20 +25,34 @@ def number(value):
 
 def records(data, key, errors):
     value = data.get(key)
-    if not isinstance(value, list) or not value or not all(isinstance(item, dict) for item in value):
+    if not isinstance(value, list) or not value:
         errors.append(key + " must contain at least one object")
         return []
+    for item in value:
+        if type(item) is not dict:
+            errors.append(key + " must contain at least one object")
+            return []
     return value
 
 
 def unique_ids(items, label, errors):
-    identifiers = [item.get("id") for item in items]
-    if any(not isinstance(value, str) or not value.strip() for value in identifiers):
+    seen = set()
+    invalid = False
+    duplicate = False
+    for item in items:
+        val = item.get("id")
+        if type(val) is not str or not val.strip():
+            invalid = True
+        elif val in seen:
+            duplicate = True
+        else:
+            seen.add(val)
+    if invalid:
         errors.append(label + " ids must be nonempty strings")
         return set()
-    if len(set(identifiers)) != len(identifiers):
+    if duplicate:
         errors.append(label + " ids must be unique")
-    return set(identifiers)
+    return seen
 
 
 def text(value):
@@ -48,24 +62,42 @@ def text(value):
 def check(data, errors):
     if data.get("birth_data_collected") is not False:
         errors.append("this public study template does not collect birth data")
-    if not text(data.get("consent_scope")):
+    cs = data.get("consent_scope")
+    if type(cs) is not str or not cs.strip():
         errors.append("consent scope is required")
+
     sources = records(data, "sources", errors)
     source_ids = unique_ids(sources, "source", errors)
+
     for source in sources:
-        if not text(source.get("title")) or not text(source.get("rights")):
+        t = source.get("title")
+        r = source.get("rights")
+        if type(t) is not str or not t.strip() or type(r) is not str or not r.strip():
             errors.append("source title and rights are required")
         url = source.get("url", "")
-        if not isinstance(url, str) or not url.startswith("https://"):
+        if type(url) is not str or not url.startswith("https://"):
             errors.append("source must link to an HTTPS reading reference")
-    for note in records(data, "notes", errors):
+
+    valid_claims = {"interpretation", "personal_observation", "source_claim", "open_question"}
+    notes = records(data, "notes", errors)
+
+    for note in notes:
         if note.get("source_id") not in source_ids:
             errors.append("note must reference a listed source")
-        if note.get("claim_type") not in ("interpretation", "personal_observation", "source_claim", "open_question"):
+        if note.get("claim_type") not in valid_claims:
             errors.append("classify notes without claiming a diagnostic or scientific finding")
-        for field in ("summary", "question", "limitations"):
-            if not text(note.get(field)):
-                errors.append("note requires " + field)
+
+        s = note.get("summary")
+        if type(s) is not str or not s.strip():
+            errors.append("note requires summary")
+
+        q = note.get("question")
+        if type(q) is not str or not q.strip():
+            errors.append("note requires question")
+
+        l = note.get("limitations")
+        if type(l) is not str or not l.strip():
+            errors.append("note requires limitations")
 
 
 
