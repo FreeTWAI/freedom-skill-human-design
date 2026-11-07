@@ -98,5 +98,46 @@ class E2EHumanDesignCalculationConsistencyTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("PASS", result.stdout)
 
+    def test_script_execution_no_args(self):
+        result = subprocess.run(
+            [sys.executable, str(VALIDATE_SCRIPT)],
+            capture_output=True,
+            text=True
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("usage: python3 scripts/validate.py <plan.json>", result.stderr)
+
+    def test_script_execution_nonexistent_file(self):
+        result = subprocess.run(
+            [sys.executable, str(VALIDATE_SCRIPT), "nonexistent.json"],
+            capture_output=True,
+            text=True
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("No such file or directory", result.stderr)
+
+    def test_script_execution_invalid_json(self):
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            f.write("{invalid json")
+            temp_path = f.name
+
+        try:
+            result = subprocess.run(
+                [sys.executable, str(VALIDATE_SCRIPT), temp_path],
+                capture_output=True,
+                text=True
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("Expecting property name enclosed in double quotes", result.stderr)
+        finally:
+            os.remove(temp_path)
+
+    def test_script_execution_invalid_plan(self):
+        data = self.base_data.copy()
+        data['title'] = ''
+        result = self.run_validate(data)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("title is required", result.stderr)
+
 if __name__ == '__main__':
     unittest.main()
